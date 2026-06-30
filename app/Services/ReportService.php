@@ -70,7 +70,8 @@ class ReportService
         }
 
         // Expenses
-        $expenseQuery = Expense::where('outlet_id', $outletId);
+        $expenseQuery = Expense::query();
+        if ($outletId) $expenseQuery->where('outlet_id', $outletId);
         if ($startDate) $expenseQuery->where('tanggal', '>=', $startDate);
         if ($endDate) $expenseQuery->where('tanggal', '<=', $endDate);
         $totalExpenses = (float) $expenseQuery->sum('amount');

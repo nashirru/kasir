@@ -3,11 +3,17 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\CashRegisterShift;
+use App\Filament\Pages\KasirDashboard;
 use App\Filament\Pages\PointOfSale;
+use App\Filament\Widgets\QuickActionsWidget;
+use App\Filament\Widgets\RecentTransactionsWidget;
+use App\Filament\Widgets\ShiftStatusWidget;
+use App\Filament\Widgets\TodaySalesWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -27,12 +33,23 @@ class KasirPanelProvider extends PanelProvider
             ->path('kasir')
             ->login()
             ->colors([
-                'primary' => Color::Green,
+                'primary' => Color::Emerald,
             ])
             ->brandName('Kasir')
+            ->navigationGroups([
+                NavigationGroup::make('Transaksi')
+                    ->icon('heroicon-o-shopping-cart'),
+            ])
             ->pages([
+                KasirDashboard::class,
                 PointOfSale::class,
                 CashRegisterShift::class,
+            ])
+            ->widgets([
+                ShiftStatusWidget::class,
+                TodaySalesWidget::class,
+                RecentTransactionsWidget::class,
+                QuickActionsWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

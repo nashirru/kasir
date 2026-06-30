@@ -14,7 +14,7 @@ class WarehouseResource extends Resource
 {
     protected static ?string $model = Warehouse::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-warehouse';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
     protected static ?string $navigationGroup = 'Master Data';
     protected static ?string $navigationLabel = 'Gudang';
     protected static ?int $navigationSort = 2;

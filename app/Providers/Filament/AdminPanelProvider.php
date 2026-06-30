@@ -33,18 +33,12 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->brandName('Kasir App')
             ->navigationGroups([
-                NavigationGroup::make('Master Data')
-                    ->icon('heroicon-o-database'),
-                NavigationGroup::make('Inventory')
-                    ->icon('heroicon-o-archive-box'),
-                NavigationGroup::make('Purchasing')
-                    ->icon('heroicon-o-truck'),
-                NavigationGroup::make('Sales')
-                    ->icon('heroicon-o-shopping-cart'),
-                NavigationGroup::make('Reports')
-                    ->icon('heroicon-o-chart-bar'),
-                NavigationGroup::make('Settings')
-                    ->icon('heroicon-o-cog-6-tooth'),
+                NavigationGroup::make('Master Data'),
+                NavigationGroup::make('Inventory'),
+                NavigationGroup::make('Purchasing'),
+                NavigationGroup::make('Sales'),
+                NavigationGroup::make('Reports'),
+                NavigationGroup::make('Settings'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

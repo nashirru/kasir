@@ -24,4 +24,9 @@ class StockOpname extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function approver(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
 }

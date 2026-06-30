@@ -6,6 +6,7 @@ use App\Models\SaleItem;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class TopProductsWidget extends BaseWidget
@@ -13,11 +14,16 @@ class TopProductsWidget extends BaseWidget
     protected static ?int $sort = 3;
     protected int|string|array $columnSpan = 'half';
 
+    public function getTableRecordKey(Model $record): string
+    {
+        return (string) $record->product_id;
+    }
+
     public function table(Table $table): Table
     {
         return $table
             ->query(
-                SaleItem::select('product_id', DB::raw('SUM(qty) as total_qty'), DB::raw('SUM(subtotal) as total_revenue'))
+                SaleItem::select('product_id', DB::raw('MAX(id) as id'), DB::raw('SUM(qty) as total_qty'), DB::raw('SUM(subtotal) as total_revenue'))
                     ->whereHas('sale', fn ($q) => $q->where('status', 'completed'))
                     ->groupBy('product_id')
                     ->orderByDesc('total_qty')

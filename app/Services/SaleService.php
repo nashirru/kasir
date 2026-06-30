@@ -36,8 +36,8 @@ class SaleService
             $outletId = $data['outlet_id'];
             $items = $data['items'];
 
-            // Generate invoice number
-            $invoiceNumber = 'INV-' . date('Ymd') . '-' . str_pad((string) (Sale::max('id') + 1), 4, '0', STR_PAD_LEFT);
+            // Generate unique invoice number (concurrency-safe)
+            $invoiceNumber = 'INV-' . date('Ymd') . '-' . strtoupper(bin2hex(random_bytes(3)));
 
             $subtotal = 0;
             $saleItems = [];
@@ -119,6 +119,8 @@ class SaleService
 
             $warehouse = Warehouse::findOrFail($sale->warehouse_id);
 
+            $sale->load('items.unit', 'items.product.baseUnit');
+
             foreach ($sale->items as $item) {
                 $product = $item->product;
                 $unit = $item->unit ?? $product->baseUnit;
@@ -155,7 +157,7 @@ class SaleService
             ]);
 
             foreach ($items as $item) {
-                $saleItem = SaleItem::with('product')->findOrFail($item['sale_item_id']);
+                $saleItem = SaleItem::with('product.baseUnit', 'unit')->findOrFail($item['sale_item_id']);
                 $qtyReturn = (float) $item['qty'];
                 $unit = $saleItem->unit ?? $saleItem->product->baseUnit;
 
